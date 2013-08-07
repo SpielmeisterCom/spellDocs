@@ -7,15 +7,16 @@
 	"--head-html": "<link rel=\"stylesheet\" href=\"resources/css/960.css\" type=\"text/css\">\n  <link rel=\"stylesheet\" href=\"resources/css/welcome.css\" type=\"text/css\">",
 	"--output": "build",
 	"--": [
-        "modules/spellCore/src/spell/EntityManager.js",
-        "modules/spellCore/src/spell/InputManager.js",
-        "modules/spellCore/src/spell/ConfigurationManager.js",
-        "modules/spellCore/src/spell/RenderingContext.js",
-        "modules/spellCore/src/spell/EventManager.js",
-        "modules/spellCore/src/spell/math",
-        "modules/spellCore/src/spell/shared/util/Logger",
-	"modules/spellCore/src/spell/shared/util/platform/PlatformKit.js",
-	"modules/spellCore/src/spell/functions.js",
-        "builtin_types.js"
+		"modules/spellCore/src/spell/AudioContext.js",
+		"modules/spellCore/src/spell/EntityManager.js",
+		"modules/spellCore/src/spell/InputManager.js",
+		"modules/spellCore/src/spell/ConfigurationManager.js",
+		"modules/spellCore/src/spell/RenderingContext.js",
+		"modules/spellCore/src/spell/EventManager.js",
+		"modules/spellCore/src/spell/math",
+		"modules/spellCore/src/spell/shared/util/Logger",
+		"modules/spellCore/src/spell/shared/util/platform/PlatformKit.js",
+		"modules/spellCore/src/spell/functions.js",
+		"builtin_types.js"
 	]
 }
