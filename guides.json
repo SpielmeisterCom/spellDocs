@@ -78,6 +78,11 @@
 					"description": "This guide explains how to handle user input."
 				},
 				{
+					"name": "tutorials_sound_playback",
+					"title": "Playing sound",
+					"description": "This guide explains how to play sound."
+				},
+				{
 					"name": "tutorials_project_build_managament",
 					"title": "Project build managament",
 					"description": "This guide explains how to manage project builds."
