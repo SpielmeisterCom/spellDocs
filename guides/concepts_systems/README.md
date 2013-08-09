@@ -5,37 +5,36 @@ This guide illustrates the basic concept of systems in SpellJS. It is intended f
 You might also be interested in [this guide](#!/guide/intro_creating_a_system_from_scratch) about creating a system from scratch.
 
 
-## What is a system?
+## What is a System?
 
-In SpellJS entities do not have instance methods. This is intentionally and by design. However in a game engine it is desirable to associate a certain piece of
-logic with a certain type of entity. Without being able to "pin" a certain piece of logic to an entity in order to describe its behaviour a developer would be
-limited to creating purely static games which are considered not much fun to play by many players.
+In SpellJS entities do not have instance methods by design. However it is often desirable to equip entities with a certain behaviour.
 
 The SpellJS way of tackling this issue is to create a system that takes care of managing the behaviour of a certain type of entity. Usually systems limit the
 scope of entities that they process by declaring a group of entities as the expected input. This entity group consists of a set of components that an entity
 instance must have in order to qualify as input for the system.
 
 
-## System definition
+## System Definition
 
-A system is declared in form of a system template. The purpose of the system template is to provide a unique identifier (namespace and name), to declare the
-systems' input and to assign a script which contains the implementation.
+A system is declared in form of a system definition. The purpose of the system definition is to provide a unique identifier, to declare the
+system's input and to assign a script which contains the system implementation.
 
 
-## System implementation
+## System Implementation
 
-Since a systems' implementation is done in a script all standard rules related to [script definition](#!/guide/concepts_scripts) apply.
+Since a system is implemented with a script all standard rules related to [script definition](#!/guide/concepts_scripts) apply.
+
 
 ### A basic system skeleton
 
 <pre><code>
 /**
- * @class Foo
+ * @class ExampleSystem
  * @singleton
  */
 
 define(
-	'Foo',
+	'ExampleSystem',
 	[
 		'spell/functions'
 	],
@@ -45,24 +44,23 @@ define(
 		'use strict'
 
 
-
 		/**
 		 * Creates an instance of the system.
 		 *
 		 * @constructor
 		 * @param {Object} [spell] The spell object.
 		 */
-		var Foo = function( spell ) {
+		var ExampleSystem = function( spell ) {
 
 		}
 
-		Foo.prototype = {
+		ExampleSystem.prototype = {
 			/**
 		 	 * Gets called when the system is created.
 		 	 *
 		 	 * @param {Object} [spell] The spell object.
 			 */
-			init: function( spell ) {
+			init : function( spell ) {
 
 			},
 
@@ -71,7 +69,7 @@ define(
 		 	 *
 		 	 * @param {Object} [spell] The spell object.
 			 */
-			destroy: function( spell ) {
+			destroy : function( spell ) {
 
 			},
 
@@ -80,7 +78,7 @@ define(
 		 	 *
 		 	 * @param {Object} [spell] The spell object.
 			 */
-			activate: function( spell ) {
+			activate : function( spell ) {
 
 			},
 
@@ -89,7 +87,7 @@ define(
 		 	 *
 		 	 * @param {Object} [spell] The spell object.
 			 */
-			deactivate: function( spell ) {
+			deactivate : function( spell ) {
 
 			},
 
@@ -100,87 +98,55 @@ define(
 			 * @param {Object} [timeInMs] The current time in ms.
 			 * @param {Object} [deltaTimeInMs] The elapsed time in ms.
 			 */
-			process: function( spell, timeInMs, deltaTimeInMs ) {
+			process : function( spell, timeInMs, deltaTimeInMs ) {
 
 			}
 		}
 
-		return Foo
+		return ExampleSystem
 	}
 )
 </code></pre>
 
 
-### Accessing input
+### Accessing Input
 
-All components which are declared as input for a system in its system template can be accessed by their local aliasing name as instance members of the system.
-These data structures are called **component dictionaries**. The injection of a component dictionary into a system instance is done by the engine automatically
-when a system gets created. If for example a system declares the component *spell.component.2d.transform* with the local alias "myTransformComponents" as its
-required input the *component dictionary* of all transform components can be accessed through the this pointer as shown below.
+All components which are declared as input of a system in its system definition can be accessed by their local aliasing name as instance members in the
+scope of the system. These data structures are called *component maps*. The injection of a *component map* into a system instance is performed by the engine
+when a system is created. If for example a system declares the component *spell.component.2d.transform* with the local alias "myTransformComponents" as its
+required input the *component map* of all transform components can be accessed through the this pointer as shown below.
 
 <pre><code>
 ...
 
-var Foo = function( spell ) {
+var ExampleSystem = function( spell ) {
+	var transformComponents = this.myTransformComponents
 
-    for (var entityId in this.myTransformComponents) {
+	for( var entityId in transformComponents ) {
+		var transform = transformComponents[ entityId ]
 
-        doSomethingWithEntityId( entityId )
-    }
-
-	//...
+		spell.logger.debug( transform.translation )
+	}
 }
 
-Foo.prototype = {
-        /**
-         * Gets called when the system is created.
-         *
-         * @param {Object} [spell] The spell object.
-         */
-        init: function( spell ) {
+ExampleSystem.prototype = {
+	...
 
-        },
+	/**
+	 * Gets called to trigger the processing of game state.
+	 *
+	 * @param {Object} [spell] The spell object.
+	 * @param {Object} [timeInMs] The current time in ms.
+	 * @param {Object} [deltaTimeInMs] The elapsed time in ms.
+	 */
+	process : function( spell, timeInMs, deltaTimeInMs ) {
+		var transformComponents = this.myTransformComponents
 
-        /**
-         * Gets called when the system is destroyed.
-         *
-         * @param {Object} [spell] The spell object.
-         */
-        destroy: function( spell ) {
+		for( var entityId in transformComponents ) {
+			var transform = transformComponents[ entityId ]
 
-        },
-
-        /**
-         * Gets called when the system is activated.
-         *
-         * @param {Object} [spell] The spell object.
-         */
-        activate: function( spell ) {
-
-        },
-
-        /**
-         * Gets called when the system is deactivated.
-         *
-         * @param {Object} [spell] The spell object.
-         */
-        deactivate: function( spell ) {
-
-        },
-
-        /**
-         * Gets called to trigger the processing of game state.
-         *
-         * @param {Object} [spell] The spell object.
-         * @param {Object} [timeInMs] The current time in ms.
-         * @param {Object} [deltaTimeInMs] The elapsed time in ms.
-         */
-        process: function( spell, timeInMs, deltaTimeInMs ) {
-		    _.each( this.myTransformComponents, function( component, entityId ) {
-		        // do stuff
-		     } )
-
-        }
+			drawOrigin( transform )
+		}
 	}
 }
 
@@ -188,52 +154,64 @@ Foo.prototype = {
 </code></pre>
 
 
-### Component dictionary structure
+### Component Map structure
 
-The following example shows the structure of the *spell.component.2d.transform* component dictionary. The data structure is shown in JavaScript object notation.
-Note that the keys of the dictionary are entity ids. The associated values are the component instances. In the example only two entities with the ids 0 and 3
-have a *spell.component.2d.transform* component.
+The following example shows the structure of the *spell.component.2d.transform* component map. The data structure is shown in JSON notation. Note that the
+keys of the map are entity ids. The associated objects are the component instances. In the example below only two entities with the ids 0 and 3
+have a *spell.component.2d.transform* component. The actual structure of the transform component contains some additional attributes which where omitted for
+brevity.
 
 <pre><code>
 {
-	0 : {
-		rotation : 0,
-		scale : [ 2, 2 ],
-		translation : [ 0, 100 ]
+	"0" : {
+		"rotation" : 0,
+		"scale" : [ 2, 2 ],
+		"translation" : [ 0, 100 ]
 	},
-	3 : {
-		rotation : 1.57,
-		scale : [ 1, 1 ],
-		translation : [ 50, 50 ]
-	},
+	"3" : {
+		"rotation" : 1.57,
+		"scale" : [ 1, 1 ],
+		"translation" : [ 50, 50 ]
+	}
 }
 </code></pre>
 
 
-### Working with component dictionaries
+### Important notes about Component Maps
 
-As stated before input is presented to a system in form of component dictionaries. There are a couple of things you should keep in mind when working with them.
+* **Do not rely on a certain iteration order.** Component maps are just regular JavaScript objects with the keys being entity ids and the values being the
+component instances. As a consequence you must not make any assumptions about iteration order when iterating over the component map.
 
-* Component dictionaries are just regular JavaScript objects with the keys being entity ids and the value being the component instances. As a consequence you must
-not make any assumptions about iteration order when iterating over the component dictionary.
+* **Try not to keep references to components.** It is not recommended to keep references to individual component instances in the system instance scope
+between processing calls. Other systems might manipulate entities too, including the deletion of components or even the whole entity. If you really,
+really feel the need to keep references to components make sure that they are either always valid or check them for validity before you perform processing on
+ them.
 
-* It is usually a very bad idea to keep references to individual component instances in the system instance scope around between two processing calls. This is
-considered an anti pattern because other systems might also manipulate entities and their components. This manipulation includes the deletion of entities too.
-So if another system decides that it is time to delete an entity whilst your system is still keeping a reference to one of its components you have successfully
-entered side effect hell. Try to avoid this for your own sake.
-
-* Manipulating component dictionaries must not be done manually but rather through means provided by the framework
-([Creating entities dynamically](#!/guide/tutorials_creating_entities_dynamically)). Otherwise things might break.
+* **Use the spell API to manipulate components and entities.** Manipulating component maps must not be done manually but rather through means provided by the
+framework ([Creating entities dynamically](#!/guide/tutorials_creating_entities_dynamically)). *Otherwise things might break.*
 
 
-## System execution
+## System Lifecycle
 
-### Execution order
+A system resides always in one of the four states *initial*, *inactive*, *active* or *final*. Transitions between these states are signaled by calls to the
+respective event methods *init*, *activate*, *deactivate*, *destroy* and *process* (see the code example in the [System Implementation](#!/guide/concepts_systems-section-system-implementation) paragraph). It is recommended to place setup and tear-down operations which do not rely on entities
+ to be placed in the *init* and *destroy* methods. Setup und tear-down operations which work on entities are implemented in the *activate* and *deactivate*
+ methods. The *process* method should only contain the main processing operations. I.e. the render system performs the drawing of the scene in its *process*
+ method.
+
+{@img systemStatesDiagram.png system state diagram}
+
+
+## System Execution
+
+
+### Execution Order
 The order in which systems are executed is important. The order can be changed during editing time but not during runtime. It is always guaranteed that changes performed by
 *system A* to the game state are visible to *system B* when *system B* is set to execute after *system A* by the predefined order. If one of your systems relies on processing performed by another system make sure to schedule your system's execution after the
 execution of the other system.
 
-### Execution group
+
+### Execution Group
 Systems can be assigned to two different execution groups. Which one is better suited depends on the type of processing performed by the system.
 
 The first group is called *render*. Systems assigned to this group are executed everytime a render tick is performed. The amount of render ticks might vary
