@@ -38,9 +38,9 @@
 				"description": "This guide explains how scenes can be used for managing different states of a game."
 			},
 			{
-				"name": "concepts_scripts",
-				"title": "Scripts",
-				"description": "This guide explains how scripts are used to manage code."
+				"name": "concepts_scripting_basics",
+				"title": "Scripting Basics",
+				"description": "This guide explains the basics of scripting in SpellJS."
 			},
 			{
 				"name": "concepts_spell_globals_object",
