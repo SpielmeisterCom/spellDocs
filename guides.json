@@ -63,9 +63,9 @@
 					"description": "This guide explains how a custom system is created from scratch and added to a scene."
 				},
 				{
-					"name": "tutorials_creating_entities_dynamically",
-					"title": "Creating entities dynamically",
-					"description": "This guide elaborates how entities can be managed during runtime of the application."
+					"name": "tutorials_managing_entities",
+					"title": "Managing entities",
+					"description": "This guide explains how entities are managed."
 				},
 				{
 					"name": "tutorials_using_console_logging",
