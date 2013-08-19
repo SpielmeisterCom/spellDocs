@@ -1,4 +1,4 @@
-# Overview of SpellJS
+# Overview
 
 SpellJS is a cross-platform framework for the development of games based on the HTML5 technology stack. It offers a convenient abstraction layer that hides all
 platform specific implementation details that exist on the various browser environments and mobile devices.
@@ -18,17 +18,17 @@ of entities is implemented in JavaScript code. The SpellJS framework offers a co
 development of games.
 
 
-## Development system requirements
+## Development System Requirements
 
 The development system must meet the following requirements:
 
-* Windows, OS X or Linux
+* Windows, OS X or Linux (64 Bit)
 
 
-## Supported target platforms
+## Supported Target Platforms
 
 The following target platforms are supported out of the box, that means no additional work for porting to these platforms is necessary:
 
 * Web browser - Chrome 22+, Safari 6+, Internet Explorer 10+, Firefox 18+, optional fall-back to Flash (10.1+)
-* Android - version 4.0.3 or greater
+* Android - version 2.3 or greater
 * iOS - version 5 or greater
