@@ -43,9 +43,9 @@
 				"description": "This guide explains the basics of scripting in SpellJS."
 			},
 			{
-				"name": "concepts_spell_object",
-				"title": "Spell Object",
-				"description": "This guide illustrates the usage of the spell object."
+				"name": "concepts_spelljs_api",
+				"title": "SpellJS API",
+				"description": "This guide illustrates the usage of the SpellJS API."
 			},
 			{
 				"name": "concepts_systems",
