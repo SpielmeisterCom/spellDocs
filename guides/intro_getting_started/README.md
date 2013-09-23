@@ -20,7 +20,7 @@ finished proceed with the installation instructions according to your operating 
 
 #### Windows
 
-Execute the installer you just downloaded and follow the installation instructions it provides.
+Execute the installer you just downloaded and follow the provided installation instructions.
 
 
 #### Linux
